@@ -1,14 +1,16 @@
 const express =  require('express');
 const mongoose = require('mongoose');
-const Schemas = require('./models/schemas');
 const crypto = require('crypto');
 
-const Orga = Schemas.Orga;
-const Task = Schemas.Task;
-const Project = Schemas.Project;
-const Member = Schemas.Member;
+const Orga = require('./models/Orga');
+const Task = require('./models/Task');
+const Project = require('./models/Project');
+const Member = require('./models/Member');
 
 const app = express();
+
+let admin = null;
+
 
 const dbRI = 'mongodb://localhost:27017/project_manager';
 mongoose.connect(dbRI, {useNewUrlParser: true, useUnifiedTopology: true})
@@ -23,6 +25,53 @@ app.get('/', (req, res) => {
     res.render('welcome');
 })
 
+app.get('/dashboard', async (req, res) => {  
+    let members = [];
+    let projects = [];  
+    orga = await Orga.findById(admin.id_orga);
+    members = await Member.find({id_orga: admin.id_orga});
+    projects = await Project.find({id_orga: admin.id_orga});
+
+    res.render('index', { title: 'Dashboard', admin: admin, name_orga: orga.name, cle_orga: orga.cle, members: members, projects: projects});
+});
+
+app.get('/dashboard_member', (req, res) => {
+    res.render('index_member', { title: 'Dashboard',});
+});
+
+app.get('/login', (req, res) => {
+    res.render('login');
+});
+
+app.post('/login_process', async (req, res) => {
+    console.log(req.body);
+    let id_orga = null;
+    id_orga = await Orga.findOne({name: req.body.orga});
+    if(id_orga == null){
+        console.log('Organisation not found');
+        res.redirect('/login');
+    }   
+    else{
+        Member.findOne({name: req.body.name, password: req.body.pwd, id_orga: id_orga._id})
+        .then(result => {
+            if(result){
+                if(result.as_admin){
+                    admin = result;
+                    res.redirect('/dashboard');
+                }
+                else{
+                    res.redirect('/dashboard_member');
+                }
+
+            } else {
+                res.redirect('/login');
+            }
+        })
+        .catch(err => console.error(err));
+    }
+
+
+});
 app.post('/login_admin', (req, res) => {
     console.log(req.body);
     if(req.body.pwd != req.body.pwd2){
@@ -39,6 +88,7 @@ app.post('/login_admin', (req, res) => {
 
     const creator = new Member({
         id_orga: orga._id,
+        id_project: null,
         name: req.body.name,
         email: req.body.email,
         password: req.body.pwd,
@@ -50,8 +100,8 @@ app.post('/login_admin', (req, res) => {
         .then(result => {
             creator.save()
                 .then(result => {
-                    console.log('Organisation and creator saved');
-                    //res.redirect('/dashboard');
+                    //console.log('Organisation and creator saved');
+                    res.redirect('/dashboard');
                 })
                 .catch(err => console.error(err));
         })
@@ -65,6 +115,9 @@ app.get('/create_orga', (req, res) => {
 app.get('/join_orga', (req, res) => {
     res.render('login_as_member');
 });
+
+
+
 
 app.get('/login', (req, res) => {
     res.render('login');

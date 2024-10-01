@@ -4,18 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion</title>
-    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
     <div class="login-container">
         <h1>Connexion</h1>
-        <form id="login-form">
-            <input type="password" id="password" name="password" required placeholder="nom@organisation"><br><br>
+        <form id="login-form" method="post" action="login_process">
+            <input type="text" id="orga" name="orga" required placeholder="nom@organisation"><br><br>
             <div class="input-group">
-                <input type="text" id="username" name="username" required placeholder="Nom d'utilisateur">
+                <input type="text" id="username" name="name" required placeholder="Nom d'utilisateur">
             </div>
             <div class="input-group">
-                <input type="password" id="password" name="password" required placeholder="password">
+                <input type="password" id="password" name="pwd" required placeholder="password">
             </div>
             <button type="submit">Se connecter</button>
             <p class="error-message" id="error-message"></p>

@@ -4,18 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion de projets</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <header>
         <h1>Système de gestion de projets</h1>
+        <h2>Organisation : <%=name_orga %></h2>
+        <div class="key-container">
+            <input style="width:250px" type="text" id="generatedKey" class="key-input" value="<%= cle_orga %>" readonly>
+            <button type="button" class="copy-button" onclick="copyToClipboard()">Copier</button>
+        </div>
     </header>
     
     <main>
         <section id="projects">
             <h2>Liste des projets</h2>
             <ul id="project-list">
-                <!-- Liste des projets générée dynamiquement -->
+                <% if(projects.length > 0){ 
+                    projects.forEach(project => { %>
+                        <li> <a href=""><%= project  %></a></li>
+                    <% })} else{%> 
+                        <li>Aucun projet</li>
+                    <% } %>
             </ul>
         </section>
 
@@ -28,12 +38,35 @@
                 <input name="date_debut" type="date" id="project-date-debut" required>
                 <label for="project-name">Date de fin :</label>
                 <input name="date_fin" type="date" id="project-date-fin" required> <br>
+                <label for="members">Sélectionnez les membres :</label>
 
+                <div id="members">                    
+                    <% if(members.length > 0) {
+                        members.forEach(member => { %>
+                            <div>
+                                <input type="checkbox" id="member-<%= member._id %>" name="members" value="<%= member._id %>">
+                                <label for="member-<%= member._id %>"><%= member.name %></label>
+                            </div>
+                        <% })}
+                         else{%> 
+                            <option value="0">Aucun membre</option>
+                        <% } %>
+
+                </div>
                 <button type="submit">Ajouter le projet</button>
             </form>
         </section>
     </main>
 
     <script src="script.js"></script>
+    <script>
+        function copyToClipboard() {
+            var copyText = document.getElementById("generatedKey");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); // Pour les mobiles
+            document.execCommand("copy");
+            alert("Clé copiée: " + copyText.value);
+        }
+    </script>
 </body>
 </html>

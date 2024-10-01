@@ -70,3 +70,43 @@ li {
     background-color: #f1f1f1;
     border-radius: 5px;
 }
+
+
+.key-container {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.key-input {
+    width: 250px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.copy-button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+select, input[type="text"], input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+#members div {
+    margin-bottom: 10px;
+}
+
+
