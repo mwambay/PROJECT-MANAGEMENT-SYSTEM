@@ -14,13 +14,11 @@ body {
 }
 
 .login-container {
-    text-align: center;
     background-color: white;
-    padding: 50px;
-    border-radius: 12px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-    max-width: 600px;
-    width: 100%;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width: 700px;
 }
 
 h1 {
@@ -66,4 +64,11 @@ button:hover {
     text-align: center;
     margin-top: 10px;
     display: none; /* On cache le message d'erreur au début */
+}
+
+
+img{
+    width: 350px;
+    height: 350px;
+    margin-left: 150px;
 }

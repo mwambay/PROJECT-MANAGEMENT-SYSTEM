@@ -1,7 +1,6 @@
 const express =  require('express');
 const mongoose = require('mongoose');
 
-
 const app = express();
 
 const dbRI = 'mongodb://localhost:27017/depenseDB';
@@ -16,3 +15,12 @@ mongoose.connect(dbRI, {useNewUrlParser: true, useUnifiedTopology: true})
 app.get('/', (req, res) => {
     res.render('welcome');
 })
+
+app.get('/create_orga', (req, res) => {
+    res.render('create_orga');
+});
+
+app.get('/join_orga', (req, res) => {
+    res.render('login_as_member');
+});
+
