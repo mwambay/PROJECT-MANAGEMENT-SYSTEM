@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion de projets</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Système de gestion de projets</h1>
+    </header>
+    
+    <main>
+        <section id="projects">
+            <h2>Liste des projets</h2>
+            <ul id="project-list">
+                <!-- Liste des projets générée dynamiquement -->
+            </ul>
+        </section>
+
+        <section id="add-project">
+            <h2>Ajouter un nouveau projet</h2>
+            <form id="project-form" method="get">
+                <label for="project-name">Nom du projet :</label>
+                <input name="nom_projet" type="text" id="project-name" required>
+                <label for="project-name">Date de debut :</label>
+                <input name="date_debut" type="date" id="project-date-debut" required>
+                <label for="project-name">Date de fin :</label>
+                <input name="date_fin" type="date" id="project-date-fin" required> <br>
+
+                <button type="submit">Ajouter le projet</button>
+            </form>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
