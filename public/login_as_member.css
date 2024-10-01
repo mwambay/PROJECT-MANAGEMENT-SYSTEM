@@ -72,3 +72,22 @@ img{
     height: 350px;
     margin-left: 150px;
 }
+
+
+#desc {
+    width: 100%;
+    height: 150px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    resize: vertical; /* Permet de redimensionner verticalement */
+}
+
+#desc:focus {
+    border-color: #66afe9;
+    outline: none;
+    box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
+}
