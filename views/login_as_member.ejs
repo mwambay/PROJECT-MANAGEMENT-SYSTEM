@@ -4,31 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion</title>
-    <link rel="stylesheet" href="css/login_as_member.css">
+    <link rel="stylesheet" href="/css/login_as_member.css">
 </head>
 <body>
     <div class="login-container">
         <h1>Rejoingnez votre team</h1>
-        <form id="login-form">
-            <img src="images/team.jpg" alt="team">
+        <form id="login-form" method="post" action="/login_member">
+            <img src="/images/team.jpg" alt="team">
             <div class="input-group">
                 <input type="text" id="username" name="orga" required placeholder="nom@organisation">
             </div>
             <div class="input-group">
                 <input type="text" id="password" name="cle" required placeholder="clé">
             </div>
-                <input type="text" id="password" name="identifiant" required placeholder="rejoindre en tant que(nom)"><br><br>
-                <input type="email" id="password" name="identifiant" required placeholder="email"><br><br>
-                <input type="password" id="password" name="identifiant" required placeholder="mot de passe"><br><br>
-                <input type="password" id="password" name="identifiant" required placeholder="confirmez mot de passe">
+                <input type="text" id="password1" name="name" required placeholder="rejoindre en tant que(nom)"><br><br>
+                <input type="email" id="password2" name="email" required placeholder="email"><br><br>
+                <input type="password" id="password3" name="pwd" required placeholder="mot de passe"><br><br>
+                <input type="password" id="password4" name="pwd2" required placeholder="confirmez mot de passe">
 
                 <br><br><br>
             <button type="submit">Rejoindre</button><br>
             <p class="error-message" id="error-message"></p><br>
-            <a href="/login" target="_top">Vous avez deja un compte</a>
+            <a href="/orga/login" target="_top">Vous avez deja un compte</a>
         </form>
     </div>
 
-    <script src="login.js"></script>
+    <!-- <script src="login.js"></script> -->
 </body>
 </html>

@@ -14,7 +14,10 @@ const projectSchema = new Schema({
         type: String,
         required: true
     },
-
+    date_start: {
+        type: String,
+        require: true
+    },
     deadline: {
         type: String,
         required: true

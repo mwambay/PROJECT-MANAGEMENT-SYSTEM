@@ -20,7 +20,7 @@ const taskSchema = new Schema({
     },
 
     assignedTo: {
-        type: String,
+        type: Object,
         required: true
     }
 }, { timestamps: true });

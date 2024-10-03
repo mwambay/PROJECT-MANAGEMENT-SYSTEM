@@ -4,42 +4,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Détails du projet</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
     <header>
-        <h1 id="project-title">Nom du projet</h1>
-    </header>
+        <h1 id="project-title"><%= project.name %></h1>
+        <h3>Date initialisation : <%= project.date_start %></h2>
+        <h3>Date de fin : <%= project.deadline %></h2>
+    </header> <br>
     
     <main>
-        <section id="tasks">
+        <section id="tasks" class="scrol-tasks">
             <h2>Liste des tâches</h2>
             <ul id="task-list">
-                <!-- Liste des tâches générée dynamiquement -->
+                <% if(tasks.length > 0 && members.length > 0){ 
+                    tasks.forEach(task => { %>
+                        <li> 
+                            <h3 style="color: green;">Nom de la tache : <%= task.name  %></h3>
+                            <h3>Executee par <%=  %></h4>
+                            <ul>
+                                <%console.log(task), task.assignedTo.forEach(id=>{ %>
+                                <% members.forEach(member=>{
+                                    if(member._id == id){%>
+                                    
+                                    <ol><em><%= member.name;%></em></p></ol>
+                                <% }})}); %>
+                            </ul>
+                            <h3>Deadline : <%= task.deadline %></h3>
+                            <h3>Priorite : <%= task.priority %></h3>
+                        
+                        
+                        </li>
+                    <% })} else{%> 
+                        <li>Aucun projet</li>
+                    <% } %>
             </ul>
         </section>
 
         <section id="add-task">
             <h2>Ajouter une nouvelle tâche</h2>
-            <form id="task-form">
+            <form method="post" action="/project/add-task"  id="task-form">
                 <label for="task-name">Nom de la tâche :</label>
-                <input type="text" id="task-name" required>
+                <input name="name" type="text" id="task-name" required>
                 
                 <label for="task-priority">Priorité :</label>
-                <select id="task-priority" required>
+                <select id="task-priority" required name="priority">
                     <option value="basse">Basse</option>
                     <option value="moyenne">Moyenne</option>
                     <option value="haute">Haute</option>
                 </select>
                 
                 <label for="task-deadline">Date limite :</label>
-                <input type="date" id="task-deadline" required>
-                
+                <input name="deadline" type="date" id="task-deadline" required>
+
+                <label for="members">Tache assignee a :</label>
+
+                <div id="members" class="scrollable">  
+
+                    <% if(members.length > 0) {
+                        members.forEach(member => { %>
+                            <div>
+                                <input type="checkbox" id="member-<%= member._id %>" name="members" value="<%= member._id %>">
+                                <label for="member-<%= member._id %>"><%= member.name %></label>
+                            </div>
+                        <% })}
+                         else{%> 
+                            <option value="0">Aucun membre</option>
+                        <% } %>
+
+                </div>
                 <button type="submit">Ajouter la tâche</button>
             </form>
         </section>
     </main>
 
-    <script src="script.js"></script>
+    <!-- <script src="script.js"></script> -->
 </body>
 </html>

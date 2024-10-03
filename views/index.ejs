@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion de projets</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
     <header>
@@ -14,15 +14,15 @@
             <input style="width:250px" type="text" id="generatedKey" class="key-input" value="<%= cle_orga %>" readonly>
             <button type="button" class="copy-button" onclick="copyToClipboard()">Copier</button>
         </div>
-    </header>
+    </header><br><br>
     
     <main>
-        <section id="projects">
+        <section id="projects" class="scrol-project">
             <h2>Liste des projets</h2>
             <ul id="project-list">
                 <% if(projects.length > 0){ 
                     projects.forEach(project => { %>
-                        <li> <a href=""><%= project  %></a></li>
+                        <li> <a href="/project/details/<%= project._id  %>" ><%= project.name  %></a></li>
                     <% })} else{%> 
                         <li>Aucun projet</li>
                     <% } %>
@@ -31,16 +31,17 @@
 
         <section id="add-project">
             <h2>Ajouter un nouveau projet</h2>
-            <form id="project-form" method="get">
-                <label for="project-name">Nom du projet :</label>
-                <input name="nom_projet" type="text" id="project-name" required>
+            <form id="project-form" action="/project/add" method="POST">
+                <input name="name" type="text" id="project-name" required placeholder="Nom du projet">
                 <label for="project-name">Date de debut :</label>
                 <input name="date_debut" type="date" id="project-date-debut" required>
                 <label for="project-name">Date de fin :</label>
                 <input name="date_fin" type="date" id="project-date-fin" required> <br>
+                <textarea name="description" id="desc" placeholder="Description"></textarea><br><br>
+
                 <label for="members">Sélectionnez les membres :</label>
 
-                <div id="members">                    
+                <div id="members" class="scrollable">                    
                     <% if(members.length > 0) {
                         members.forEach(member => { %>
                             <div>
