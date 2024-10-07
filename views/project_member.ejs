@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails du projet</title>
+    <link rel="stylesheet" href="/css/styles_dash_member.css">
+</head>
+<body>
+    <header>
+        <h1 id="project-title"><%= project.name %></h1>
+        <h3>Date initialisation : <%= project.date_start %></h2>
+        <h3>Date de fin : <%= project.deadline %></h2>
+    </header> <br>
+    
+    <main>
+        <section id="tasks" class="scrol-tasks">
+            <h2>Liste des tâches</h2>
+            <ul id="task-list">
+                <%isMyTask = false
+                 if(tasks.length > 0 && members.length > 0){ 
+                    tasks.forEach(task => {
+                        if(members.includes(user._id.toString())){
+                            isMyTask = true
+                        }
+                        else{
+                            isMyTask = false} %>
+                        <li> 
+                            <h3 style="color: green;">Nom de la tache : <%= task.name  %></h3>
+                            <h3>Executee par <%=  %></h4>
+                            <ul>
+                                <%console.log(task), task.assignedTo.forEach(id=>{
+                                    if(user._id.toString() == id){isMyTask = true} %>
+                                <% members.forEach(member=>{
+                                    if(member._id == id){%>
+                                    
+                                    <ol><small><%= member.name;%></small></p> </ol>
+                                <% }})}); %>
+                            </ul>
+                            <p>Deadline : <%= task.deadline %></p>
+                            <p>Priorite : <%= task.priority %></p>
+                            <p>Etat : <%= task.state %></p>
+                        <br>
+                        <%if(isMyTask){
+                            if(task.state == 'En cours' && isMyTask){%>
+                                <a class="finish" href="">Terminer</a> <a style="background-color: #007bff;" class="finish" href="">Reporter</a>
+                            <% }else{%>
+                                <a class="finish" href="">Reprendre</a> <a style="background-color: #007bff;" class="finish" href="">Reporter</a>
+                            <% }} %>
+
+                        </li>
+                    <% })} else{%> 
+                        <li>Aucune tache</li>
+                    <% } %>
+            </ul>
+        </section>
+    </main>
+
+    <!-- <script src="script.js"></script> -->
+</body>
+</html>

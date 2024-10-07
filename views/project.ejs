@@ -8,12 +8,43 @@
 </head>
 <body>
     <header>
-        <h1 id="project-title"><%= project.name %></h1>
+		<a href="#" class="logo-holder">
+			<div class="logo">GP</div>
+			<div class="logo-text">Gestion Projet</div>
+		</a>
+		<nav>
+			<ul id="menu">
+				<li>
+					<a href="#">Home</a>
+				</li>
+				<li>
+					<a href="#skills">Team</a>
+				</li>
+				<li>
+					<a href="#projects">Projects</a>
+				</li>
+				<li>
+					<a href="mailto:hello@adriantwarog.com" class="button">organization</a>
+				</li>
+			</ul>
+			<a href="#" class="mobile-toggle" onClick="toggleMobileMenu();">
+				<svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+					<path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h10"/>
+				</svg>
+			</a>
+		</nav>
+
+        <!-- <h1 id="project-title"><%= project.name %></h1>
         <h3>Date initialisation : <%= project.date_start %></h2>
-        <h3>Date de fin : <%= project.deadline %></h2>
+        <h3>Date de fin : <%= project.deadline %></h2> -->
     </header> <br>
     
     <main>
+        <ul class="menu_">
+            <li>Nom : <%= project.name %></li>
+            <li>Date debut : <%= project.date_start %></li>
+            <li>Deadline : <%= project.deadline %></li>
+        </ul>
         <section id="tasks" class="scrol-tasks">
             <h2>Liste des tâches</h2>
             <ul id="task-list">
@@ -36,7 +67,7 @@
                         
                         </li>
                     <% })} else{%> 
-                        <li>Aucun projet</li>
+                        <li>Aucune tache</li>
                     <% } %>
             </ul>
         </section>

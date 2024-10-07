@@ -22,6 +22,10 @@ const taskSchema = new Schema({
     assignedTo: {
         type: Object,
         required: true
+    },
+    state: {
+        type: String,
+        default: 'En cours'
     }
 }, { timestamps: true });
 

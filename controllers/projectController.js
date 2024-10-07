@@ -2,15 +2,17 @@ const Orga = require('../models/Orga');
 const Task = require('../models/Task');
 const Project = require('../models/Project');
 const Member = require('../models/Member');
-const {admin} = require('../controllers/orgaController');
+const { setAdmin, getAdmin } = require('../adminState');
 
 let detailsProject = null;
 
 const addProject = (req, res) => {
+    const serInfo = req.session.user;
 
-    console.log(req.body);
+    //console.log('Add project', admin);
+    //console.log(req.body);
     const project = new Project({
-        id_orga: admin.id_orga,
+        id_orga: serInfo.id_orga,
         name: req.body.name,
         description: req.body.description,
         date_start: req.body.date_debut,
@@ -19,20 +21,24 @@ const addProject = (req, res) => {
 
     project.save()
         .then(result => {
-            //console.log('Project saved');
-            const members = req.body.members;
+            console.log('Project saved', req.body.members, 'oo');
+
+            let members = req.body.members;
+            if(typeof members != 'object'){
+                members = [members];
+            }
             console.log(members,   members.length);
             if(members.length > 1){
                 console.log('Multiple members');
                 members.forEach(async member => {
-                    console.log(member);
+                    //console.log(member);
                     resp = await Member.findByIdAndUpdate(
                         member,
                         { id_project: project._id },
                         { new: true }
                     )
                 })
-                res.redirect('/dashboard');
+                res.redirect('/orga/dashboard');
             }
             
             else{
@@ -43,17 +49,15 @@ const addProject = (req, res) => {
                     { new: true } )
                     .then(result => {
                         console.log(result);
-                        res.redirect('/dashboard');
+                        res.redirect('/orga/dashboard');
                     })
                     .catch(err => console.error(err));
-
             }
             
             })
         .catch(err => console.error(err));
 
 }
-
 
 const detailsProjectSecand = async (req, res)=> {
     if(detailsProject != null){
@@ -62,7 +66,19 @@ const detailsProjectSecand = async (req, res)=> {
 
         tasks = await Task.find({id_project: detailsProject._id});
         members_ = await Member.find({id_project: detailsProject._id});
-        res.render('project', {project: detailsProject, members: members_, tasks: tasks});
+        let user = req.session.user
+        if(user == null){
+            res.redirect('/orga/login');
+        }
+
+        else{
+            if(user.as_admin){
+                res.render('project', {project: detailsProject, members: members_, tasks: tasks});
+            }
+            else{
+                res.render('project_member', {project: detailsProject, members: members_, tasks: tasks, user: user});
+            }
+        }
 
     }
     else{

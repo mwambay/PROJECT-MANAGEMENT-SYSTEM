@@ -1,9 +1,11 @@
 const Orga = require('../models/Orga');
-const Task = require('../models/Task');
 const Project = require('../models/Project');
 const Member = require('../models/Member');
+const crypto = require('crypto');
+const { setAdmin, getAdmin } = require('../adminState');
 
-let admin = null;
+
+let admin = getAdmin();
 let orga = null;
 
 const getWelcome = (req, res) => {
@@ -15,23 +17,42 @@ const getJoinOrga = (req, res) => {
 }
 
 const getDashboard = async (req, res) => {
+    const userInfo = req.session.user;
+    //console.log("session", var__);
+
     let members = [];
     let projects = [];
-    if(admin == null){
+    if(userInfo == null){
         res.redirect('/orga/login');
     }
     else{
-        orga = await Orga.findById(admin.id_orga);
-        members = await Member.find({id_orga: admin.id_orga});
-        projects = await Project.find({id_orga: admin.id_orga});
+        orga = await Orga.findById(userInfo.id_orga);
+        members = await Member.find({id_orga: userInfo.id_orga});
+        projects = await Project.find({id_orga: userInfo.id_orga});
     
-        res.render('index', { title: 'Dashboard', admin: admin, name_orga: orga.name, cle_orga: orga.cle, members: members, projects: projects});
+        res.render('index', { title: 'Dashboard', admin: userInfo, name_orga: orga.name, cle_orga: orga.cle, members: members, projects: projects});
     }
 
 }
 
-const getDashboardMember = (req, res) => {
-    res.render('index_member', { title: 'Dashboard',});
+const getDashboardMember = async (req, res) => {
+    console.log("dashbord member");
+    //admin = getAdmin()
+    const userInfo = req.session.user;
+
+    let members = [];
+    let projects = [];
+    if(userInfo == null){
+        console.log('return');
+        res.redirect('/orga/login');
+    }
+    else{
+        orga = await Orga.findById(userInfo.id_orga);
+        members = await Member.find({id_orga: userInfo.id_orga});
+        projects = await Project.find({id_orga: userInfo.id_orga});
+        
+        res.render('index_member', { title: 'Dashboard', admin: userInfo, name_orga: orga.name, cle_orga: orga.cle, members: members, projects: projects});
+    }   
 }
 
 const getLogin = (req, res) => {
@@ -39,7 +60,7 @@ const getLogin = (req, res) => {
 }
 
 const postLoginProcess = async (req, res) => {
-    console.log(req.body);
+    console.log('kk',req.body);
     let id_orga = null;
     id_orga = await Orga.findOne({name: req.body.orga});
     if(id_orga == null){
@@ -51,10 +72,14 @@ const postLoginProcess = async (req, res) => {
         .then(result => {
             if(result){
                 if(result.as_admin){
-                    admin = result;
+                    req.session.user = result;
+                    //setAdmin(result);
+                    //admin = getAdmin();
                     res.redirect('/orga/dashboard');
                 }
                 else{
+                    req.session.user = result;
+                    //setAdmin(result);
                     res.redirect('/orga/dashboard_member');
                 }
 
@@ -89,7 +114,7 @@ const postLoginAsMember = (req, res) => {
                 member.save()
                     .then(result => {
                         //console.log('Member saved');
-                        res.redirect('/dashboard_member');
+                        res.redirect('/orga/dashboard_member');
                     })
                     .catch(err => console.error(err));
             } else {

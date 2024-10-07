@@ -8,8 +8,33 @@
 </head>
 <body>
     <header>
-        <h1>Système de gestion de projets</h1>
-        <h2>Organisation : <%=name_orga %></h2>
+        <!-- <h1>Système de gestion de projets</h1>
+        <h2>Organisation : <%=name_orga %></h2> -->
+		<a href="#" class="logo-holder">
+			<div class="logo">GP</div>
+			<div class="logo-text">Gestion Projet</div>
+		</a>
+		<nav>
+			<ul id="menu">
+				<li>
+					<a href="#">Home</a>
+				</li>
+				<li>
+					<a href="#skills">Team</a>
+				</li>
+				<li>
+					<a href="#projects">Projects</a>
+				</li>
+				<li>
+					<a href="mailto:hello@adriantwarog.com" class="button">organization</a>
+				</li>
+			</ul>
+			<a href="#" class="mobile-toggle" onClick="toggleMobileMenu();">
+				<svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+					<path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h10"/>
+				</svg>
+			</a>
+		</nav>
         <div class="key-container">
             <input style="width:250px" type="text" id="generatedKey" class="key-input" value="<%= cle_orga %>" readonly>
             <button type="button" class="copy-button" onclick="copyToClipboard()">Copier</button>
@@ -22,7 +47,7 @@
             <ul id="project-list">
                 <% if(projects.length > 0){ 
                     projects.forEach(project => { %>
-                        <li> <a href="/project/details/<%= project._id  %>" ><%= project.name  %></a></li>
+                        <li> <a id="upd" href="/project/details/<%= project._id  %>" ><%= project.name  %></a></li>
                     <% })} else{%> 
                         <li>Aucun projet</li>
                     <% } %>

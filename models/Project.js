@@ -22,6 +22,10 @@ const projectSchema = new Schema({
         type: String,
         required: true
     },
+    state: {
+        type: String,
+        default: 'En cours'
+    }
 
 
 }, { timestamps: true });
