@@ -11,6 +11,7 @@ router.get('/login', orgaController.getLogin);
 router.post('/login_process', orgaController.postLoginProcess);
 router.get('/join_orga', orgaController.getJoinOrga);
 router.post('/login_as_member', orgaController.postLoginAsMember);
+//router.get('/login')
 router.post('/login_as_admin', orgaController.postLoginAsAdmin);
 router.get('/create_orga', orgaController.getCreateOrga);
 

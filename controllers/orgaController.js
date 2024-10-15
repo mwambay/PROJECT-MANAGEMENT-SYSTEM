@@ -23,7 +23,7 @@ const getDashboard = async (req, res) => {
     let members = [];
     let projects = [];
     if(userInfo == null){
-        res.redirect('/orga/login');
+        res.redirect('/orga/login?error=session_expire');
     }
     else{
         orga = await Orga.findById(userInfo.id_orga);
@@ -56,7 +56,8 @@ const getDashboardMember = async (req, res) => {
 }
 
 const getLogin = (req, res) => {
-    res.render('login');
+    const error = req.query.error;
+    res.render('login', {error});
 }
 
 const postLoginProcess = async (req, res) => {
@@ -65,7 +66,7 @@ const postLoginProcess = async (req, res) => {
     id_orga = await Orga.findOne({name: req.body.orga});
     if(id_orga == null){
         console.log('Organisation not found');
-        res.redirect('/orga/login');
+        res.redirect('/orga/login?error=orga_not_found');
     }   
     else{
         Member.findOne({name: req.body.name, password: req.body.pwd, id_orga: id_orga._id})
@@ -84,7 +85,7 @@ const postLoginProcess = async (req, res) => {
                 }
 
             } else {
-                res.redirect('/orga/login');
+                res.redirect('/orga/login?error=incorrect_pwd');
             }
         })
         .catch(err => console.error(err));
@@ -104,7 +105,7 @@ const postLoginAsMember = (req, res) => {
             if(result){
                 const member = new Member({
                     id_orga: result._id,
-                    id_project: null,
+                    id_project: [],
                     name: req.body.name,
                     email: req.body.email,
                     password: req.body.pwd,
@@ -144,7 +145,7 @@ const postLoginAsAdmin = (req, res) => {
 
     const creator = new Member({
         id_orga: orga._id,
-        id_project: null,
+        id_project: [],
         name: req.body.name,
         email: req.body.email,
         password: req.body.pwd,

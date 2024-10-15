@@ -2,18 +2,10 @@ const express =  require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const bodyParser = require('body-parser');
-const Orga = require('./models/Orga');
-const Task = require('./models/Task');
-const Project = require('./models/Project');
-const Member = require('./models/Member');
 const orgaRoutes = require('./routes/orgaRoutes');
 const projectRoutes = require('./routes/projectRoutes');
 const memberRoutes = require('./routes/memberRoutes');
 const app = express();
-
-
-let admin = null;
-
 
 app.use(bodyParser.urlencoded({ extended: true}));
 

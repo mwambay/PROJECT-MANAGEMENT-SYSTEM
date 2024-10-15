@@ -8,7 +8,7 @@ const memberSchema = new Schema({
     },
 
     id_project: {
-        type: String,
+        type: Array,
         required: false
     },
 

@@ -23,7 +23,7 @@
 					<a href="#skills">Team</a>
 				</li>
 				<li>
-					<a href="#projects">Projects</a>
+					<a href="/orga/dashbord">Projects</a>
 				</li>
 				<li>
 					<a href="mailto:hello@adriantwarog.com" class="button">organization</a>
@@ -35,19 +35,71 @@
 				</svg>
 			</a>
 		</nav>
+        <button id="openDialogOrga"  class="copy-button">Clé de l'Organisation</button><br>
+    </header><br><br>
+    
+    <dialog id="orga-key">
+        <h3>Copy key</h3>
         <div class="key-container">
             <input style="width:250px" type="text" id="generatedKey" class="key-input" value="<%= cle_orga %>" readonly>
             <button type="button" class="copy-button" onclick="copyToClipboard()">Copier</button>
         </div>
-    </header><br><br>
-    
+        <p><small>la clé permettra à vos collaborateurs de rejoindre votre organisation</small></p>
+
+    </dialog>
     <main>
         <section id="projects" class="scrol-project">
             <h2>Liste des projets</h2>
+
             <ul id="project-list">
                 <% if(projects.length > 0){ 
-                    projects.forEach(project => { %>
-                        <li> <a id="upd" href="/project/details/<%= project._id  %>" ><%= project.name  %></a></li>
+                    projects.forEach((project, index) => { %>
+                        <li> <a id="upd" href="/project/details/<%= project._id  %>" ><h3><%= project.name  %></h3>
+                            <p>Date de debut : <%= project.date_start %></p>
+                            <p>Deadline : <%= project.deadline %></p>
+                            <p>Description : <%= project.description %></p>
+                            
+                        </a><br>
+                        <button href="" id="modifier<%= index %>" class="finish">Modifier</button>
+
+                        <button id="renoncerBtn-<%= index %>"  href=""  class="renoncerBtn">Renoncer</button>
+
+
+
+                        <dialog class="dialog-confirmation" id="renoncerDialog-<%= index  %>">
+                            
+                            <h1>Confirmation</h1>
+                            <p>Le projet <%= project.name %> va etre effacé definitivement</p><br>
+            
+                            <a href="/project/delete-project/<%= project._id %>"  class="finish" style="background-color: red;" >ok</a>
+                            <button id="closeDialog<%= index  %>" href="" >non</button>
+                        </dialog>
+            
+
+                        <dialog class="modifier-projet" id="modifieDialog-<%= index  %>">
+
+                            <h1>Modifier le projet <%= project.name  %></h1>
+                            <form id="project-form" action="/project/update/<%= project._id %>" method="post">
+                                <input name="name" type="text" id="project-name" required placeholder="Nom du projet" value="<%= project.name  %>">
+                                <label for="project-name">Date de debut :</label>
+                                <input name="date_debut" type="date" value="<%= project.date_start %>" id="project-date-debut" required>
+                                <label for="project-name">Date de fin :</label>
+                                <input name="date_fin" type="date" value="<%= project.deadline %>" id="project-date-fin" required> <br>
+                                <textarea name="description" value="dkdkkd" id="desc" placeholder="Description"></textarea><br><br>
+
+
+                                <button type="submit">Mettre-à-jour</button>
+                                <a class="finish" type="none" id="cancelUpdate<%= index %>"> annuler </a>
+                            </form>
+
+                        </dialog>
+
+
+                        <!-- <a href="/project/delete-project/<%= project._id %>" class="finish" style="background-color: red;" >Renoncer</a> -->
+
+                    </li>
+                        
+
                     <% })} else{%> 
                         <li>Aucun projet</li>
                     <% } %>
@@ -56,7 +108,7 @@
 
         <section id="add-project">
             <h2>Ajouter un nouveau projet</h2>
-            <form id="project-form" action="/project/add" method="POST">
+            <form id="project-form" action="/project/add" method="post">
                 <input name="name" type="text" id="project-name" required placeholder="Nom du projet">
                 <label for="project-name">Date de debut :</label>
                 <input name="date_debut" type="date" id="project-date-debut" required>
@@ -82,17 +134,10 @@
                 <button type="submit">Ajouter le projet</button>
             </form>
         </section>
+
     </main>
 
-    <script src="script.js"></script>
-    <script>
-        function copyToClipboard() {
-            var copyText = document.getElementById("generatedKey");
-            copyText.select();
-            copyText.setSelectionRange(0, 99999); // Pour les mobiles
-            document.execCommand("copy");
-            alert("Clé copiée: " + copyText.value);
-        }
-    </script>
+    <script src="/javaScript/index.js"></script>
+
 </body>
 </html>

@@ -65,5 +65,6 @@ button:hover {
     color: red;
     text-align: center;
     margin-top: 10px;
-    display: none; /* On cache le message d'erreur au début */
 }
+
+

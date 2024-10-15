@@ -41,9 +41,10 @@
         <section id="projects">
             <h1>Liste des projets</h1>
             <ul id="project-list">
-                <% if(projects.length > 0){ 
+               <% console.log(admin.id_project) %> 
+                <%if(projects.length > 0){ 
                     projects.forEach(project => {
-                        if(project._id.toString() == admin.id_project){%>
+                        if(admin.id_project.indexOf(project._id.toString()) != -1){%>
                             <li> <a style="text-decoration: none;" id="upd" href="/project/details/<%= project._id  %>" >Designation : <%= project.name  %>
                                 <p>Date de debut : <%= project.date_start %></p>
                                 <p>Deadline : <%= project.deadline %></p>

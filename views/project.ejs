@@ -21,7 +21,7 @@
 					<a href="#skills">Team</a>
 				</li>
 				<li>
-					<a href="#projects">Projects</a>
+					<a href="/orga/dashboard">Projects</a>
 				</li>
 				<li>
 					<a href="mailto:hello@adriantwarog.com" class="button">organization</a>
@@ -33,6 +33,7 @@
 				</svg>
 			</a>
 		</nav>
+        <button id="openDialogMembers"  class="copy-button">Gerer les participants</button><br>
 
         <!-- <h1 id="project-title"><%= project.name %></h1>
         <h3>Date initialisation : <%= project.date_start %></h2>
@@ -45,25 +46,55 @@
             <li>Date debut : <%= project.date_start %></li>
             <li>Deadline : <%= project.deadline %></li>
         </ul>
+
+        <dialog class="manage-members" id="manageMembers">
+
+            <h2 >Ajouter des participants au projet</h2><br>
+            <form action="/project/update-members/<%= project._id %>" method="post">
+                <div id="members" class="scrollable">                    
+                    <% if(allMembers.length > 0) {
+                        allMembers.forEach(member => { %>
+                            <div>
+                                <input type="checkbox" id="member-<%= member._id %>" name="members" value="<%= member._id %>">
+                                <label for="member-<%= member._id %>"><%= member.name %></label>
+                            </div>
+                        <% })}
+                        else{%> 
+                            <option value="0">Aucun membre</option>
+                        <% } %>
+
+                </div><br><br>
+                <button type="submit">Ajouter le projet</button>
+            </form>
+        </dialog>
+
         <section id="tasks" class="scrol-tasks">
             <h2>Liste des tâches</h2>
             <ul id="task-list">
-                <% if(tasks.length > 0 && members.length > 0){ 
+                <% if(tasks.length > 0 && allMembers.length > 0){ 
                     tasks.forEach(task => { %>
                         <li> 
-                            <h3 style="color: green;">Nom de la tache : <%= task.name  %></h3>
-                            <h3>Executee par <%=  %></h4>
+                            <p>Nom de la tache : <%= task.name  %></p>
+                            <p>Executee par <%=  %></p>
                             <ul>
                                 <%console.log(task), task.assignedTo.forEach(id=>{ %>
-                                <% members.forEach(member=>{
+                                <% allMembers.forEach(member=>{
                                     if(member._id == id){%>
                                     
-                                    <ol><em><%= member.name;%></em></p></ol>
+                                    <ol><small><%= member.name;%></small></p></ol>
                                 <% }})}); %>
                             </ul>
-                            <h3>Deadline : <%= task.deadline %></h3>
-                            <h3>Priorite : <%= task.priority %></h3>
-                        
+                            <p>Deadline : <%= task.deadline %></p>
+                            <p>Priorite : <%= task.priority %></p>
+                            <p>statut : <%= task.state %></p>
+                            <br>
+                            <a href="/project/delete-task/<%= task._id %>" class="finish" style="background-color: red;" >supprimer</a>
+
+                            <% if(task.state == 'En cours'){%>
+                                <a href="/project/report-task/<%= task._id %>" class="finish" style="background-color: blue;" >Reporter</a>
+                            <%} else {%>
+                                <a href="/project/report-task/<%= task._id %>" class="finish" style="background-color: blue;" >Reprendre</a>
+                            <% } %>
                         
                         </li>
                     <% })} else{%> 
@@ -92,15 +123,18 @@
 
                 <div id="members" class="scrollable">  
 
-                    <% if(members.length > 0) {
-                        members.forEach(member => { %>
-                            <div>
-                                <input type="checkbox" id="member-<%= member._id %>" name="members" value="<%= member._id %>">
-                                <label for="member-<%= member._id %>"><%= member.name %></label>
-                            </div>
-                        <% })}
+                    <% if(allMembers.length > 0) {
+                        allMembers.forEach(member => { 
+                            if(member.id_project.includes(project._id.toString())){
+                                %>
+                                <div>
+                                    <input type="checkbox" id="member-<%= member._id %>" name="members" value="<%= member._id %>">
+                                    <label for="member-<%= member._id %>"><%= member.name %>    <a style="color: red; text-decoration: none;" href="/project/delete-from-project/<%= member._id  %>-<%= project._id %>">retirer du projet</a></label>
+                                </div>
+                            <% }%>
+  
+                        <%})}
                          else{%> 
-                            <option value="0">Aucun membre</option>
                         <% } %>
 
                 </div>
@@ -109,6 +143,6 @@
         </section>
     </main>
 
-    <!-- <script src="script.js"></script> -->
+    <script src="/javaScript/script_project.js"></script>
 </body>
 </html>

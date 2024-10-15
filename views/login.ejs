@@ -17,8 +17,17 @@
             <div class="input-group">
                 <input type="password" id="password" name="pwd" required placeholder="password">
             </div>
+            <%console.log(error)
+             if (error == 'incorrect_pwd') {%>
+                <p class="error-message" id="error-message">mot de passe incorrect</p><br>
+            <% }if(error == 'orga_not_found'){%>
+                <p class="error-message" id="error-message">organisation non trouvée</p><br>
+            <% }else{%>
+                <p style="display: none;"></p><br>
+
+            <% } %>
             <button type="submit">Se connecter</button>
-            <p class="error-message" id="error-message"></p>
+
         </form>
     </div>
 
