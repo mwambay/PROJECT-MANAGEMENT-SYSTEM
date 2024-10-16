@@ -2,10 +2,8 @@ const Orga = require('../models/Orga');
 const Project = require('../models/Project');
 const Member = require('../models/Member');
 const crypto = require('crypto');
-const { setAdmin, getAdmin } = require('../adminState');
 
 
-let admin = getAdmin();
 let orga = null;
 
 const getWelcome = (req, res) => {
@@ -173,6 +171,5 @@ module.exports = {
     getJoinOrga,
     postLoginAsMember,
     postLoginAsAdmin,
-    getCreateOrga,
-    admin
+    getCreateOrga
 }

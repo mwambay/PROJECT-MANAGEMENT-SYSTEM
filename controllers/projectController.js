@@ -1,7 +1,6 @@
 const Task = require('../models/Task');
 const Project = require('../models/Project');
 const Member = require('../models/Member');
-const { setAdmin, getAdmin } = require('../adminState');
 
 let detailsProject = null;
 
